@@ -1,5 +1,5 @@
-using MAUIExampleAPI.DAO.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using MAUIExampleAPI.DAO.Interfaces;
 
 namespace MAUIExampleAPI.Controllers
 {
