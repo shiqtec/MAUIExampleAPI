@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MAUIExampleAPI.DAO.Interfaces;
-using MAUIExampleAPI.Models.Requests;
+using MAUIExampleAPI.Models.DTOs;
 
 namespace MAUIExampleAPI.Controllers
 {
@@ -30,18 +30,31 @@ namespace MAUIExampleAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddTodo(TodoRequest todo)
+        public async Task<IActionResult> AddTodo(TodoDTO todo)
         {
             var todoResponse = await _todoService.AddTodo(todo);
             return CreatedAtAction(nameof(GetTodo), new { todoResponse.Id }, todoResponse);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTodo(int id, TodoRequest todo)
+        public async Task<IActionResult> UpdateTodo(int id, TodoDTO todo)
         {
             var updatedTodo = await _todoService.UpdateTodo(id, todo);
 
             if(updatedTodo == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> UpdateTodo(int id)
+        {
+            var updatedTodo = await _todoService.DeleteTodo(id);
+
+            if (updatedTodo == null)
             {
                 return NotFound();
             }

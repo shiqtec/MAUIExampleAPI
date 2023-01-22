@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using MAUIExampleAPI.Models.Responses;
 using MAUIExampleAPI.Models.Database;
 using MAUIExampleAPI.DAO.Interfaces;
-using MAUIExampleAPI.Models.Requests;
+using MAUIExampleAPI.Models.DTOs;
 
 namespace MAUIExampleAPI.DAO
 {
@@ -18,29 +17,29 @@ namespace MAUIExampleAPI.DAO
             _mapper = mapper;
         }
 
-        public async Task<TodoResponse> AddTodo(TodoRequest todo)
+        public async Task<TodoDTO> AddTodo(TodoDTO todo)
         {
             var dbTodo = _mapper.Map<Todo>(todo);
             
             await _dbContext.AddAsync(dbTodo);
             await _dbContext.SaveChangesAsync();
 
-            return _mapper.Map<TodoResponse>(dbTodo);
+            return _mapper.Map<TodoDTO>(dbTodo);
         }
 
-        public async Task<TodoResponse> GetTodo(int id)
+        public async Task<TodoDTO> GetTodo(int id)
         {
             var dbTodo = await _dbContext.Todos.FirstOrDefaultAsync(todos => todos.Id == id);
-            return _mapper.Map<TodoResponse>(dbTodo);
+            return _mapper.Map<TodoDTO>(dbTodo);
         }
 
-        public async Task<List<TodoResponse>> GetTodos()
+        public async Task<List<TodoDTO>> GetTodos()
         {
             var dbTodos = await _dbContext.Todos.ToListAsync();
-            return _mapper.Map<List<TodoResponse>>(dbTodos);
+            return _mapper.Map<List<TodoDTO>>(dbTodos);
         }
 
-        public async Task<TodoResponse> UpdateTodo(int id, TodoRequest todo)
+        public async Task<TodoDTO> UpdateTodo(int id, TodoDTO todo)
         {
             var dbTodo = await _dbContext.Todos.FirstOrDefaultAsync(todos => todos.Id == id);
 
@@ -52,7 +51,22 @@ namespace MAUIExampleAPI.DAO
             dbTodo.TodoName = todo.TodoName;
             await _dbContext.SaveChangesAsync();
 
-            return _mapper.Map<TodoResponse>(dbTodo);
+            return _mapper.Map<TodoDTO>(dbTodo);
+        }
+
+        public async Task<TodoDTO> DeleteTodo(int id)
+        {
+            var dbTodo = await _dbContext.Todos.FirstOrDefaultAsync(todos => todos.Id == id);
+
+            if (dbTodo == null)
+            {
+                return null;
+            }
+
+            _dbContext.Remove(dbTodo);
+            await _dbContext.SaveChangesAsync();
+
+            return _mapper.Map<TodoDTO>(dbTodo);
         }
     }
 }

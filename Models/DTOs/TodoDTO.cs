@@ -1,6 +1,6 @@
-﻿namespace MAUIExampleAPI.Models.Requests
+﻿namespace MAUIExampleAPI.Models.DTOs
 {
-    public class TodoRequest
+    public class TodoDTO
     {
         public int? Id { get; set; }
         public string TodoName { get; set; }

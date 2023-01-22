@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MAUIExampleAPI.Models.Database;
-using MAUIExampleAPI.Models.Requests;
-using MAUIExampleAPI.Models.Responses;
+using MAUIExampleAPI.Models.DTOs;
 
 namespace MAUIExampleAPI.Mapping
 {
@@ -9,8 +8,8 @@ namespace MAUIExampleAPI.Mapping
     {
         public TodoProfile()
         {
-            CreateMap<Todo, TodoResponse>();
-            CreateMap<TodoRequest, Todo>();
+            CreateMap<Todo, TodoDTO>();
+            CreateMap<TodoDTO, Todo>();
         }
     }
 }
