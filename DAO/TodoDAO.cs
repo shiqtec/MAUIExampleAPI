@@ -39,5 +39,20 @@ namespace MAUIExampleAPI.DAO
             var dbTodos = await _dbContext.Todos.ToListAsync();
             return _mapper.Map<List<TodoResponse>>(dbTodos);
         }
+
+        public async Task<TodoResponse> UpdateTodo(int id, TodoRequest todo)
+        {
+            var dbTodo = await _dbContext.Todos.FirstOrDefaultAsync(todos => todos.Id == id);
+
+            if(dbTodo == null)
+            {
+                return null;
+            }
+
+            dbTodo.TodoName = todo.TodoName;
+            await _dbContext.SaveChangesAsync();
+
+            return _mapper.Map<TodoResponse>(dbTodo);
+        }
     }
 }

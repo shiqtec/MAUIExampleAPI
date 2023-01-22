@@ -8,5 +8,6 @@ namespace MAUIExampleAPI.DAO.Interfaces
         public Task<List<TodoResponse>> GetTodos();
         public Task<TodoResponse> GetTodo(int id);
         public Task<TodoResponse> AddTodo(TodoRequest todo);
+        public Task<TodoResponse> UpdateTodo(int id, TodoRequest todo);
     }
 }

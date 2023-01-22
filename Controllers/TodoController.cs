@@ -35,5 +35,18 @@ namespace MAUIExampleAPI.Controllers
             var todoResponse = await _todoService.AddTodo(todo);
             return CreatedAtAction(nameof(GetTodo), new { todoResponse.Id }, todoResponse);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTodo(int id, TodoRequest todo)
+        {
+            var updatedTodo = await _todoService.UpdateTodo(id, todo);
+
+            if(updatedTodo == null)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
     }
 }
