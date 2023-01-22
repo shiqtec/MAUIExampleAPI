@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MAUIExampleAPI.DAO.Interfaces;
+using MAUIExampleAPI.Models.Requests;
 
 namespace MAUIExampleAPI.Controllers
 {
@@ -19,6 +20,20 @@ namespace MAUIExampleAPI.Controllers
         {
             var todos = await _todoService.GetTodos();
             return Ok(todos);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTodo(int id)
+        {
+            var todo = await _todoService.GetTodo(id);
+            return Ok(todo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTodo(TodoRequest todo)
+        {
+            var todoResponse = await _todoService.AddTodo(todo);
+            return CreatedAtAction(nameof(GetTodo), new { todoResponse.Id }, todoResponse);
         }
     }
 }
