@@ -1,15 +1,24 @@
+using MAUIExampleAPI.DAO.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAUIExampleAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class TodoController : ControllerBase
     {
-        [HttpGet]
-        public int Get()
+        private readonly ITodoDAO _todoService;
+
+        public TodoController(ITodoDAO todoService)
         {
-            return 1;
+            _todoService = todoService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTodos()
+        {
+            var todos = await _todoService.GetTodos();
+            return Ok(todos);
         }
     }
 }
